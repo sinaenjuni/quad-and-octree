@@ -5,7 +5,7 @@ Implementation with Python for managing 2D, and 3D point data.
 ## Demo
 
 ![quadtree](doc/quadtree.gif)
-![octree](doc/octree.gif)
+![octree](doc/octree.png)
 
 ## Installation
 
