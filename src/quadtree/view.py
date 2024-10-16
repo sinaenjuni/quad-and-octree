@@ -10,7 +10,7 @@ from matplotlib.patches import Rectangle, Circle
 class Visualizer:
     def __init__(self, data_lim=(-200, -200, 200, 200), 
                     rect_size=(50, 50), circle_radius=50,
-                    window_size=(720, 720), DPI=30) -> None:
+                    window_size=(720, 720), DPI=90) -> None:
         self.controller = None
         self.fig = plt.figure(figsize=(window_size[0]/DPI, window_size[1]/DPI), dpi=DPI)
         # if self.is_3d:
@@ -29,7 +29,7 @@ class Visualizer:
 
         # self.found_points_circle = self.ax.scatter([], [], s=700, color="r", marker="o")
         self.found_points = None
-        self.mouse_position = self.ax.scatter([], [], s=100, color='k')
+        self.mouse_position = self.ax.scatter([], [], s=10, color='k')
 
         # self.found_points_box = self.ax.scatter([], [], 500, "r", "*")
         self.rect = None
@@ -54,7 +54,7 @@ class Visualizer:
     def draw_data_points(self, points):
         if len(points) != 0:
             if self.data_points is None:
-                self.data_points = self.ax.scatter([], [], s=200, color='k')
+                self.data_points = self.ax.scatter([], [], s=20, color='k')
             self.data_points.set_offsets(points)
         else:
             if self.found_points is not None:
@@ -66,7 +66,7 @@ class Visualizer:
         if len(points) != 0:
             if self.found_points is None:
                 self.found_points = self.ax.scatter(
-                    [], [], s=700, color="r", marker="o", facecolors="none", edgecolors='r', linewidth=4)
+                    [], [], s=200, color="r", marker=".", facecolors="none", edgecolors='r', linewidth=1)
             self.found_points.set_offsets(points)
         else:
             if self.found_points is not None:
@@ -87,7 +87,7 @@ class Visualizer:
             rect = Rectangle((xmin, ymin), w, h,
                                     edgecolor='red',
                                     facecolor='none',
-                                    lw=4 if num_points > 0 else 0.5)
+                                    lw=1 if num_points > 0 else 0.1)
             self.ax.add_patch(rect)
             self.data_rects.append(rect)
         plt.draw()
@@ -108,8 +108,7 @@ class Visualizer:
                                 edgecolor='red', facecolor='none', lw=2)
             self.ax.add_patch(self.rect)
         else:
-            self.rect.set_xy((cx, cy))
-            self.rect.set_bounds
+            self.rect.set_bounds(cx, cy, w, h)
         plt.draw()
 
     def on_move(self, event):

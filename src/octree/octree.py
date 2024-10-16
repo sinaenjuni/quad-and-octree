@@ -275,7 +275,7 @@ class Octree:
             self.child_7.query_circle(cx, cy, cz, radius, found_points)
         return found_points
 
-    def query_box(self, cx, cy, cz, w, h, d, found_points):
+    def query_rect(self, cx, cy, cz, w, h, d, found_points):
             txmin = cx - w/2
             txmax = cx + w/2
             tymin = cy - h/2
@@ -298,14 +298,14 @@ class Octree:
                     found_points.append(point)
 
             if not self.is_leaf:
-                self.child_0.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_1.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_2.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_3.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_4.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_5.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_6.query_box(cx, cy, cz, w, h, d, found_points)
-                self.child_7.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_0.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_1.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_2.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_3.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_4.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_5.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_6.query_rect(cx, cy, cz, w, h, d, found_points)
+                self.child_7.query_rect(cx, cy, cz, w, h, d, found_points)
             return found_points
     
     def update(self, old_point, new_point):        

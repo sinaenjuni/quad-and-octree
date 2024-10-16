@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # np.random.seed(123)
     n = 100
     data_lim = (-200, -200, -200, 200, 200, 200)
-    query_box_size = (50, 50)
+    query_box_size = (0,0,0,350,350,350)
     circle_radius = 20
 
     model = Octree(*data_lim, 0, 1, 5, "Root")
@@ -37,7 +37,8 @@ if __name__ == "__main__":
     for x, y, z in raw_data:
         ret = controller.insert_data(x, y, z)
 
-    controller.query_circle(0,0,0, 250)
+    controller.query_rect(*query_box_size)
+    # controller.query_circle(0,0,0, 250)
     controller.delete_data()
 
     # print(model)

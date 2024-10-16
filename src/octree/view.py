@@ -4,6 +4,28 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 import numpy as np
 
+
+def rect2verts(rect):
+    xmin, ymin, zmin, xmax, ymax, zmax = rect
+    box_points = np.array([[xmin, ymin, zmin],
+                            [xmax, ymin, zmin],
+                            [xmax, ymax, zmin],
+                            [xmin, ymax, zmin],
+                            [xmin, ymin, zmax],
+                            [xmax, ymin, zmax],
+                            [xmax, ymax, zmax],
+                            [xmin, ymax, zmax]
+                        ])
+    verts = [
+        [box_points[j] for j in [0, 1, 2, 3]],
+        [box_points[j] for j in [4, 5, 6, 7]],
+        [box_points[j] for j in [0, 1, 5, 4]],
+        [box_points[j] for j in [2, 3, 7, 6]],
+        [box_points[j] for j in [0, 3, 7, 4]],
+        [box_points[j] for j in [1, 2, 6, 5]]
+    ]
+    return verts
+
 class Visualizer:
     def __init__(self, data_lim=(-200, -200, -200, 200, 200, 200), 
                     query_box_size=(50, 50), circle_radius=50,
@@ -25,7 +47,7 @@ class Visualizer:
         self.mouse_position = self.ax.scatter([], [], [], s=100, color='k')
 
         # self.found_points_box = self.ax.scatter([], [], 500, "r", "*")
-        self.found_box = None
+        self.rect = None
         self.circle = None
         
         self.data_points = None
@@ -76,7 +98,8 @@ class Visualizer:
         self.data_rects.clear()
 
         for rect in rects:
-            verts, num_points = rect
+            rect, num_points = rect
+            verts = rect2verts(rect)
             rect = Poly3DCollection(verts, 
                                     linewidths=1 if num_points > 0 else 0.1,
                                     edgecolors='r', alpha=.01)
@@ -97,14 +120,20 @@ class Visualizer:
         self.circle = self.ax.plot_wireframe(x, y, z, color=(0, 0, 1, 0.3))
         plt.draw()
 
+    def draw_rect(self, rect):
+        verts = rect2verts(rect)
+        if self.rect is None:
+            rect = Poly3DCollection(verts, 
+                                    linewidths=1,
+                                    edgecolors='blue', alpha=.01)
+            self.ax.add_collection3d(rect)
+            self.rect = rect
+        plt.draw()
+
+
     def on_move(self, event):
         if event.inaxes:
-            print(dir(event))
-            x, y = event.xdata, event.ydata
-            inv = self.ax.transData.inverted()
-            ax_coords = inv.transform([x, y])
-            print(ax_coords)
-
+            pass
             # self.mouse_position.set_offsets([x, y, z])
             # self.controller.query_circle(x, y, self.circle_radius)
 
