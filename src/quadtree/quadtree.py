@@ -156,7 +156,7 @@ class Quadtree:
                 self.TL = self.TR = self.BL = self.BR = None
                 self.is_leaf = True
 
-    def query_box(self, cx, cy, w, h, found_points):
+    def query_rect(self, cx, cy, w, h, found_points):
         txmin = cx - w/2
         txmax = cx + w/2
         tymin = cy - h/2
@@ -172,10 +172,10 @@ class Quadtree:
                 found_points.append(point)
 
         if not self.is_leaf:
-            self.TL.query_box(cx, cy, w, h, found_points)
-            self.TR.query_box(cx, cy, w, h, found_points)
-            self.BL.query_box(cx, cy, w, h, found_points)
-            self.BR.query_box(cx, cy, w, h, found_points)
+            self.TL.query_rect(cx, cy, w, h, found_points)
+            self.TR.query_rect(cx, cy, w, h, found_points)
+            self.BL.query_rect(cx, cy, w, h, found_points)
+            self.BR.query_rect(cx, cy, w, h, found_points)
 
         return found_points
     

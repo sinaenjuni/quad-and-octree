@@ -9,7 +9,7 @@ from matplotlib.patches import Rectangle, Circle
 
 class Visualizer:
     def __init__(self, data_lim=(-200, -200, 200, 200), 
-                    query_box_size=(50, 50), circle_radius=50,
+                    rect_size=(50, 50), circle_radius=50,
                     window_size=(720, 720), DPI=30) -> None:
         self.controller = None
         self.fig = plt.figure(figsize=(window_size[0]/DPI, window_size[1]/DPI), dpi=DPI)
@@ -21,7 +21,7 @@ class Visualizer:
 
         plt.tight_layout()
 
-        self.query_box_size = query_box_size # w, h
+        self.rect_size = rect_size # w, h
         self.circle_radius = circle_radius
         self.data_lim = data_lim
         self.is_mouse_enter = False
@@ -32,7 +32,7 @@ class Visualizer:
         self.mouse_position = self.ax.scatter([], [], s=100, color='k')
 
         # self.found_points_box = self.ax.scatter([], [], 500, "r", "*")
-        self.found_box = None
+        self.rect = None
         self.circle = None
         
         self.data_points = None
@@ -92,13 +92,24 @@ class Visualizer:
             self.data_rects.append(rect)
         plt.draw()
 
-    def draw_circle(self, x, y, radius):
+    def draw_circle(self, cx, cy, radius):
         if self.circle is None:
-            self.circle = Circle((x, y), radius, edgecolor='blue', lw=2, fill=False)
+            self.circle = Circle((cx, cy), radius, 
+                                edgecolor='blue', lw=2, fill=False)
             self.ax.add_patch(self.circle)
         else:
-            self.circle.set_center((x, y))
+            self.circle.set_center((cx, cy))
             self.circle.set_radius(radius)
+        plt.draw()
+
+    def draw_rect(self, cx, cy, w, h):
+        if self.rect is None:
+            self.rect = Rectangle((cx, cy), w, h,
+                                edgecolor='red', facecolor='none', lw=2)
+            self.ax.add_patch(self.rect)
+        else:
+            self.rect.set_xy((cx, cy))
+            self.rect.set_bounds
         plt.draw()
 
     def on_move(self, event):
@@ -106,23 +117,24 @@ class Visualizer:
             x, y = event.xdata, event.ydata
             self.mouse_position.set_offsets([x, y])
             self.controller.query_circle(x, y, self.circle_radius)
+            self.controller.query_rect(x, y, self.rect_size[0], self.rect_size[1])
 
             # if se lf.query_box_size is not None:
             #     cx, cy = x-self.query_box_size[0]/2, y-self.query_box_size[1]/2
-            #     if self.found_box is None:
-            #         self.found_box = Rectangle((cx, cy), self.query_box_size[0], self.query_box_size[1],
+            #     if self.rect is None:
+            #         self.rect = Rectangle((cx, cy), self.query_box_size[0], self.query_box_size[1],
             #                             edgecolor='blue',
             #                             facecolor='none',
             #                             lw=2)
-            #         self.ax.add_patch(self.found_box)
+            #         self.ax.add_patch(self.rect)
             #     else:
-            #         self.found_box.set_xy((cx, cy))
+            #         self.rect.set_xy((cx, cy))
     
         else:
             self.mouse_position.set_offsets(np.empty((2,)))
-            if self.found_box is not None:
-                self.found_box.remove()
-                self.found_box = None
+            if self.rect is not None:
+                self.rect.remove()
+                self.rect = None
             if self.circle is not None:
                 self.circle.remove()
                 self.circle = None

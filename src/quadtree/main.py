@@ -19,9 +19,15 @@ def thread0(controller):
         # print(radius)
         controller.query_circle(x, y, radius)
         controller.delete_data()
+
+        x, y = np.random.rand(2,) * 400 - 200
+        w, h = np.random.randint(10, 200, (2,))
+        controller.query_rect(x, y, w, h)
+        # controller.delete_data()
+
         # time.sleep(0.6)
 
-        time.sleep(0.01)
+        time.sleep(0.1)
 
 
 if __name__ == "__main__":
@@ -33,11 +39,11 @@ if __name__ == "__main__":
 
     model = Quadtree(*data_lim, 0, 30, 5, "Root")
     view = Visualizer(data_lim=data_lim, 
-                    query_box_size=None,
+                    rect_size=query_box_size,
                     circle_radius=circle_radius)
     controller = Controller(model, view)
 
-    # th0 = threading.Thread(target=thread0, args=(controller,))
+    th0 = threading.Thread(target=thread0, args=(controller,))
     # th0.daemon = True
     # th0.start()
 

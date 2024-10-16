@@ -298,14 +298,14 @@ class Octree:
                     found_points.append(point)
 
             if not self.is_leaf:
-                self.child_0.query_box(cx, cy, w, h, found_points)
-                self.child_1.query_box(cx, cy, w, h, found_points)
-                self.child_2.query_box(cx, cy, w, h, found_points)
-                self.child_3.query_box(cx, cy, w, h, found_points)
-                self.child_4.query_box(cx, cy, w, h, found_points)
-                self.child_5.query_box(cx, cy, w, h, found_points)
-                self.child_6.query_box(cx, cy, w, h, found_points)
-                self.child_7.query_box(cx, cy, w, h, found_points)
+                self.child_0.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_1.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_2.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_3.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_4.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_5.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_6.query_box(cx, cy, cz, w, h, d, found_points)
+                self.child_7.query_box(cx, cy, cz, w, h, d, found_points)
             return found_points
     
     def update(self, old_point, new_point):        

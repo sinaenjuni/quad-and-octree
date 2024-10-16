@@ -52,18 +52,22 @@ class Controller:
         self.view.draw_found_data_points([])
         # print(found_points)
 
-    def query_circle(self, x, y, radius):
-        self.view.draw_circle(x, y, radius)
+    def query_circle(self, cx, cy, radius):
+        self.view.draw_circle(cx, cy, radius)
 
         self.found_points = []
-        self.model.query_circle(x, y, radius, self.found_points)
+        self.model.query_circle(cx, cy, radius, self.found_points)
         self.view.draw_found_data_points(
             np.array([[p.x, p.y] for p in self.found_points]))
-        
-        # print(self.found_points)
-        # for p in self.found_points:
-            # print(p.x, p.y)
-        # if event.button is MouseButton.RIGHT:
+
+    def query_rect(self, x, y, w, h):
+        cx, cy = x - w/2, y - h/2
+        self.view.draw_rect(cx, cy, w, h)
+
+        self.found_points = []
+        self.model.query_rect(x, y, w, h, self.found_points)
+        self.view.draw_found_data_points(
+            np.array([[p.x, p.y] for p in self.found_points]))
     
     def out_event(self):
         self.view.draw_found_data_points([])
