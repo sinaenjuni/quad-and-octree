@@ -124,7 +124,7 @@ class Visualizer:
         verts = rect2verts(rect)
         if self.rect is None:
             rect = Poly3DCollection(verts, 
-                                    linewidths=1,
+                                    linewidths=2,
                                     edgecolors='blue', alpha=.01)
             self.ax.add_collection3d(rect)
             self.rect = rect
